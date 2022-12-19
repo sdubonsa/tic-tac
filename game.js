@@ -142,7 +142,7 @@ const gameController = (() => {
         const board = gameBoard.getBoard()
         let isWon = false;
 
-        if (checkWinDiag(symbol, board)) {
+        if (checkWinDiag(symbol, board) || checkWinAcross(symbol, board)) {
             isWon = true;
         }
 
@@ -163,6 +163,14 @@ const gameController = (() => {
         } else if (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol) {
             console.log(symbol + ' WINS!')
             return true 
+        }
+    }
+
+    const checkWinAcross = (symbol, board) => {
+        for (let i = 0; i < 3; i++) {
+            if (board[i][0] == symbol && board[i][1] == symbol && board[i][2] == symbol) {
+                return true
+            }
         }
     }
 
