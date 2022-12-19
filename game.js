@@ -17,15 +17,11 @@ const displayController = (() => {
      * @param {*} board 
      */
     const createBoard = (board) => {
-        console.log("BOARD: " + board)
-
         gameController.trackCurrPlayer()
         const currentPlayer = gameController.getCurrentPlayer()
 
-        console.log("CURRENT PLAYER SYMBOL: " + currentPlayer.getSymbol())
-        console.log("CURRENT PLAYER: " + currentPlayer)
-
         const container = document.getElementById('game-board')
+        container.innerHTML = ''
 
         // Loop through rows
         board.forEach((element, x) => {
@@ -81,6 +77,8 @@ const gameController = (() => {
         board[x][y] = currentPlayer.getSymbol()
 
         gameBoard.setBoard(board)
+        checkWinCondition(currentPlayer.getSymbol())
+
         displayController.createBoard(gameBoard.getBoard())
     }
 
@@ -100,15 +98,40 @@ const gameController = (() => {
         }
     }
 
+    /**
+     * Sets the current player
+     * 
+     * @param {Player} player 
+     */
     const setCurrentPlayer = (player) => {
         currentPlayer = player
     }
 
+    /**
+     * Gets the current player
+     * 
+     * @returns Player
+     */
     const getCurrentPlayer = () => {
         return currentPlayer
     }
 
-    return { chooseTile, trackCurrPlayer, getCurrentPlayer }
+    const checkWinCondition = (symbol) => {
+        // Check win diagonal
+        const board = gameBoard.getBoard()
+
+        checkWinDiag(symbol, board)
+    }
+
+    const checkWinDiag = (symbol, board) => {
+        if (board[0][0] == symbol && board[1][1]  == symbol && board[2][2] == symbol) {
+            console.log(symbol + ' WINS!')
+        } else if (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol) {
+            console.log(symbol + ' WINS!') 
+        }
+    }
+
+    return { chooseTile, trackCurrPlayer, getCurrentPlayer, checkWinCondition }
 })()
 
 displayController.createBoard(gameBoard.getBoard())
