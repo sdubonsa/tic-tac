@@ -42,7 +42,23 @@ const displayController = (() => {
         });
     }
 
-    return { createBoard }
+    /**
+     * This updates the win-display to display the winner of the match
+     * 
+     * @param {boolean} isWon 
+     * @param {string} symbol 
+     */
+    const displayWin = (isWon, symbol) => {
+        const container = document.getElementById('win-display')
+        const winDisplay = document.createElement('div')
+
+        if(isWon) {
+            winDisplay.innerHTML = symbol + " HAS WON THE GAME!"
+            container.appendChild(winDisplay)
+        }
+    }
+
+    return { createBoard, displayWin }
 })()
 
 const gameBoard = (() => {
@@ -116,18 +132,37 @@ const gameController = (() => {
         return currentPlayer
     }
 
+    /**
+     * This checks the win condition for across and diag.
+     * 
+     * @param {string} symbol 
+     */
     const checkWinCondition = (symbol) => {
         // Check win diagonal
         const board = gameBoard.getBoard()
+        let isWon = false;
 
-        checkWinDiag(symbol, board)
+        if (checkWinDiag(symbol, board)) {
+            isWon = true;
+        }
+
+        displayController.displayWin(isWon, symbol)
     }
 
+    /**
+     * This checks for wins in a diag. across the board
+     * 
+     * @param {string} symbol 
+     * @param {2D array} board 
+     * @returns 
+     */
     const checkWinDiag = (symbol, board) => {
         if (board[0][0] == symbol && board[1][1]  == symbol && board[2][2] == symbol) {
             console.log(symbol + ' WINS!')
+            return true
         } else if (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol) {
-            console.log(symbol + ' WINS!') 
+            console.log(symbol + ' WINS!')
+            return true 
         }
     }
 
