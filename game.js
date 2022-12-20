@@ -26,11 +26,12 @@ const displayController = (() => {
         // Loop through rows
         board.forEach((element, x) => {
             const row = document.createElement('div')
-            row.classList.add('flex', 'gap-4')
+            row.classList.add('flex')
             // Loop through cols
             element.forEach((e, y) => {
                 const tile = document.createElement('div')
                 tile.innerHTML = e
+                tile.classList.add('border-2', 'w-40', 'h-40', 'flex', 'justify-center', 'items-center', 'text-2xl')
                 tile.addEventListener('click', function() {
                     gameController.chooseTile(x, y, currentPlayer)
                 })
@@ -63,9 +64,9 @@ const displayController = (() => {
 
 const gameBoard = (() => {
     var board = [
-        ['A', 'B', 'C'],
-        ['D', 'E', 'F'],
-        ['G', 'H', 'I']
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
     ]
 
     /**
